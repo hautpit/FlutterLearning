@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/providers/cart.dart';
+import 'package:shop_app/providers/cart.dart' show Cart;
+import 'package:shop_app/providers/orders.dart';
+import "../widgets/cart_item.dart";
 
 class CartScreen extends StatelessWidget {
   static const routeName = "/cart";
@@ -44,12 +46,35 @@ class CartScreen extends StatelessWidget {
                     "ORDER NOW",
                     style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Provider.of<Orders>(
+                      context,
+                      listen: false,
+                    ).addOrder(
+                      cart.itemsList,
+                      cart.totalAmount,
+                    );
+                    cart.clear();
+                  },
                 )
               ],
             ),
           ),
         ),
+        const SizedBox(
+          height: 10,
+        ),
+        Expanded(
+            child: ListView.builder(
+          itemBuilder: (ctx, i) => CartItem(
+            id: cart.itemsList[i].id,
+            productId: cart.items.keys.toList()[i],
+            title: cart.itemsList[i].title,
+            price: cart.itemsList[i].price,
+            quantity: cart.itemsList[i].quantity,
+          ),
+          itemCount: cart.itemCount,
+        ))
       ]),
     );
   }
