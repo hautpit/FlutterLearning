@@ -44,6 +44,12 @@ class CartItem extends StatelessWidget {
       onDismissed: (direction) {
         cart.removeItem(productId);
       },
+      confirmDismiss: (direction) {
+        showDialog(
+          context: context,
+          builder: (context) => Text("asdsa"),
+        );
+      },
       child: Card(
         margin: const EdgeInsets.symmetric(
           horizontal: 15,
